@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="student">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {{student_datas1}}
+        </title>
+        <style>
+            /*---fonts - Arial, Arial, BrushScript, Comic, Calibri---*/
+            :root {
+                --border1: #000000;
+                --border2: #b8b8b6;
+                --dividerborder: #000;
+            }
+
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background-color: #242424;
+                font: 10pt;
+                position: relative;
+                font-family: 'Times New Roman';
+            }
+
+            * {
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+            }
+
+            .page {
+                width: 297mm;
+                min-height: 210mm;
+                padding: 0mm;
+                margin: 10mm auto;
+                border: 0px #D3D3D3 hidden;
+                border-radius: 5px;
+                background: #fff;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .subpage {
+                padding: 5mm;
+                border: 0mm black solid;
+                height: 210mm;
+                outline: 0mm #21a041 hidden;
+                position: relative;
+                z-index: 0;
+            }
+
+            .subpage::before {
+                content: "";
+                background-image: url(hggh);
+                background-size: 400px 400px;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                bottom: 0px;
+                left: 0px;
+                opacity: 0.2;
+                background-repeat: no-repeat;
+                background-position: center;
+                z-index: -1;
+            }
+
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+
+            @media print {
+
+                html,
+                body {
+                    width: 297mm;
+                    height: 210mm;
+                    background: #fff;
+                }
+
+                .page {
+                    margin: 0;
+                    padding: 0;
+                    border: initial;
+                    border-radius: initial;
+                    width: initial;
+                    min-height: initial;
+                    box-shadow: initial;
+                    background: initial;
+                    page-break-after: always;
+                }
+
+                button.print-button {
+                    display: none;
+                }
+            }
+
+            button.print-button {
+                width: 100px;
+                height: 100px;
+                position: fixed !important;
+                right: 20px;
+                top: 20px;
+            }
+
+            span.print-icon,
+            span.print-icon::before,
+            span.print-icon::after,
+            button.print-button:hover .print-icon::after {
+                border: solid 4px #333;
+            }
+
+            span.print-icon::after {
+                border-width: 2px;
+            }
+
+            button.print-button {
+                position: relative;
+                padding: 0;
+                border: 0;
+
+                border: none;
+                background: transparent;
+            }
+
+            span.print-icon,
+            span.print-icon::before,
+            span.print-icon::after,
+            button.print-button:hover .print-icon::after {
+                box-sizing: border-box;
+                background-color: #fff;
+            }
+
+            span.print-icon {
+                position: relative;
+                display: inline-block;
+                padding: 0;
+                margin-top: 20%;
+
+                width: 60%;
+                height: 35%;
+                background: #fff;
+                border-radius: 20% 20% 0 0;
+            }
+
+            span.print-icon::before {
+                content: " ";
+                position: absolute;
+                bottom: 100%;
+                left: 12%;
+                right: 12%;
+                height: 110%;
+
+                transition: height .2s .15s;
+            }
+
+            span.print-icon::after {
+                content: " ";
+                position: absolute;
+                top: 55%;
+                left: 12%;
+                right: 12%;
+                height: 0%;
+                background: #fff;
+                background-repeat: no-repeat;
+                background-size: 70% 90%;
+                background-position: center;
+                background-image: linear-gradient(to top,
+                        #fff 0, #fff 14%,
+                        #333 14%, #333 28%,
+                        #fff 28%, #fff 42%,
+                        #333 42%, #333 56%,
+                        #fff 56%, #fff 70%,
+                        #333 70%, #333 84%,
+                        #fff 84%, #fff 100%);
+
+                transition: height .2s, border-width 0s .2s, width 0s .2s;
+            }
+
+            button.print-button:hover {
+                cursor: pointer;
+            }
+
+            button.print-button:hover .print-icon::before {
+                height: 0px;
+                transition: height .2s;
+            }
+
+            button.print-button:hover .print-icon::after {
+                height: 120%;
+                transition: height .2s .15s, border-width 0s .16s;
+            }
+
+            table.main-table tr td table.second-table tr td {
+                border-collapse: collapse;
+            }
+
+            table.main-table {
+                border: 2px solid var(--border1);
+            }
+
+            table.second-table {
+                border: 2px solid var(--border2);
+            }
+        </style>
+        <script src= 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js'></script>
+        <script> 
+          
+            var app = angular.module('myApp', []); 
+            app.controller('student', function($scope, $http) {   $http.get('/StudentDataUtility?sectionid=etpl:classsectionid&academicyearid=etpl:academicyearid&statusid=1&studentid=etpl:studentdatafilter')   .success(function (response) {$scope.fee_datas = response.student_data_array;
+            console.log(response.student_data_array);
+            }); });
+            
+          
+            </script>
+
+
+    </head>
+
+    <body>
+        <button class="print-button" onclick="window.print()"><span class="print-icon"></span></button>
+        <div ng-app='myApp' ng-controller='student'>
+            <div ng-repeat="pagedemo in fee_datas">
+                <div ng-repeat='y in pagedemo'>
+                    <div class="book"
+                        ng-if="y['student_detail_json'].__udf__rchold=='Yes' || y['__status__']=='Result Hold'"
+                        ng-init="y.rcblock = true">
+
+                        <div class="page">
+                            <div class="subpage">
+                                <table class="main-table" border="0" cellspacing="0" cellpadding="2" bordercolor="#000"
+                                    style="height: 100%; width: 100%;">
+                                    <tr>
+                                        <td>
+                                            <table class="second-table" border="0" cellspacing="0" cellpadding="0"
+                                                style="height: 100%; width: 100%;">
+                                                <tr>
+                                                    <td>
+                                                        <table border="0" cellspacing="0" cellpadding="0"
+                                                            bordercolor="#000" style="height: 100%; width: 100%;">
+                                                            <tr>
+                                                                <td align="center" valign="middle">
+                                                                    <font size="6"> <b>In case of difficulty in
+                                                                            viewing your ward's result, please contact
+                                                                            the school office immediately.</b></font>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="book" ng-if="y.rcblock != true">
+                        <div class="page">
+                            <div class="subpage">
+                                <table class="main-table" border="0" cellspacing="0" cellpadding="2" bordercolor="#000"
+                                    style="height: 100%; width: 100%;">
+                                    <tr>
+                                        <td>
+                                            <table class="second-table" border="0" cellspacing="0" cellpadding="0"
+                                                style="height: 100%; width: 100%;">
+                                                <tr>
+                                                    <td>
+                                                        <table border="0" cellspacing="0" cellpadding="0"
+                                                            bordercolor="#000" style="height: 100%; width: 100%;">
+                                                            <tr>
+                                                                <td align="center" valign="top" width="30%">
+
+                                                                <table border="0" cellspacing="0" cellpadding="0"
+                                                                bordercolor="#000" style="height: 100%; width: 100%;">
+                                                                    <tr>
+                                                                        <td width="100%"><img src="" alt=""></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>{{y['__school_address__']}}</td>
+                                                                    </tr>
+                                                                </table>
+
+                                                                <table border="0" cellspacing="0" cellpadding="0"
+                                                                bordercolor="#000" style="height: 100%; width: 100%;">
+                                                                    <tr>
+                                                                        <td>BONAFIDE CERTIFICATE</td>
+                                                                    </tr>
+                                                                </table>
+
+                                                                <table border="0" cellspacing="0" cellpadding="0"
+                                                                bordercolor="#000" style="height: 100%; width: 100%;">
+                                                                    <tr>
+                                                                        <td width="100%">G.R. <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>S.R. No. <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td> 
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>Name <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Birth Date <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Character <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>std. <div style="display:inline-block;border-bottom:1px solid #000000;"></div>
+                                                                             Div <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                    </tr>
+                                                                </table>
+                                                                </td>
+
+
+
+
+
+
+
+
+                                                                <td align="center" valign="top" width="70%">
+                                                                    <table border="0" cellspacing="0" cellpadding="0"
+                                                                    bordercolor="#000" style="height: 100%; width: 100%;">
+                                                                        <tr>
+                                                                            <td colsapn="2">Shri Uma Education and Chairtable Trust's</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>{{y[__school_logo__]}}</td>
+                                                                            <td>{{y['__school_address__']}}</td>
+                                                                        </tr>
+                                                                    </table>
+
+                                                                    <hr>
+                                                                    <hr>
+                                                                    <table border="0" cellspacing="0" cellpadding="0"
+                                                                    bordercolor="#000" style="height: 100%; width: 100%;">
+                                                                        <tr>
+                                                                            <td width="33%" height="30px"></td>
+                                                                            <td width="33%">Bonafide Certificate</td>
+                                                                            <td width="33%"></td>
+                                                                        </tr>
+                                                                    </table>
+
+                                                                    <table border="0" cellspacing="0" cellpadding="0"
+                                                                    bordercolor="#000" style="height: 100%; width: 100%;">
+                                                                    <tr>
+                                                                        <td width="45%">
+                                                                            G.R. No. <div style="display:inline-block;border-bottom:1px solid #000000;"></div>
+                                                                        </td>
+                                                                        <td width="10%"></td>
+                                                                        <td width="45%">S.R. No. <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="3" height="30px"> </td>
+                                                                    </tr>
+                                                                    </table>
+                                                                    <table border="0" cellspacing="0" cellpadding="0"
+                                                                    bordercolor="#000" style="height: 100%; width: 100%;">
+                                                                        <tr>
+                                                                            <td><p align="Justify">This is certify that <div style="display:inline-block;border-bottom:1px solid #000000;"></div>
+                                                                            </p></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><p align="Justify"><div style="display:inline-block;border-bottom:1px solid #000000;"></div> 
+                                                                            </p></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><p align="Justify">is / was a bonafide student of this school. His/Her birth date 
+                                                                            </p></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><p align="Justify">as recorded in General Register of the school is <div style="display:inline-block;border-bottom:1px solid #000000;"></div>
+                                                                            </p></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><p align="Justify"><div style="display:inline-block;border-bottom:1px solid #000000;"></div> 
+                                                                            </p></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><p align="Justify">He/ She bears a good moral Character. 
+                                                                            </p></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><p align="Justify">Std. <div style="display:inline-block;border-bottom:1px solid #000000;"></div>  Div. <div style="display:inline-block;border-bottom:1px solid #000000;"></div>
+                                                                            </p></td>
+                                                                        </tr>
+                                                                    </table>
+
+                                                                    <table border="0" cellspacing="0" cellpadding="0"
+                                                                    bordercolor="#000" style="height: 100%; width: 100%;margin-top: 40px;">
+                                                                        <tr>
+                                                                            <td align="left">Place: <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                            <td align="right" style="padding-right: 20px;">Principal</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2">Date: <div style="display:inline-block;border-bottom:1px solid #000000;"></div></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
